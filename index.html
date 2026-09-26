@@ -105,7 +105,7 @@
   <!-- Background decorative floating particle canvas -->
   <canvas id="hearts-canvas"></canvas>
 
-  <!-- Top bar with audio toggle & customization trigger -->
+  <!-- Top bar with audio toggle -->
   <header class="w-full max-w-2xl px-6 py-4 flex justify-between items-center z-20">
     <div class="flex items-center space-x-2 text-pink-600 font-script text-2xl tracking-wide">
       <span class="inline-block transform -rotate-6">✨</span>
@@ -124,10 +124,6 @@
           <line x1="23" y1="9" x2="17" y2="15"></line>
           <line x1="17" y1="9" x2="23" y2="15"></line>
         </svg>
-      </button>
-      <button id="personalize-btn" class="px-3.5 py-1.5 rounded-full text-xs font-medium bg-white/70 hover:bg-white text-slate-600 shadow-sm border border-pink-100 flex items-center space-x-1.5 transition-all">
-        <svg class="w-3.5 h-3.5 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
-        <span>Customize</span>
       </button>
     </div>
   </header>
@@ -148,7 +144,7 @@
       </div>
 
       <h1 class="text-2xl sm:text-3xl font-bold tracking-tight text-slate-800 mb-2">
-        A Secret For <span class="her-name-display text-pink-500 font-script text-3xl">The Lady I Love, Marcellina</span>
+        A Secret For <span class="text-pink-500 font-script text-3xl">The Lady I Love, <span class="her-name-display">Marcellina</span></span>
       </h1>
       <p class="text-sm text-slate-500 mb-6 leading-relaxed">
        I built a tiny universe with a message kept under strict lock and key. Only you can decrypt it.
@@ -226,7 +222,7 @@
         <p class="text-xs font-semibold tracking-widest text-purple-600 uppercase mb-2">Preparing Main Transmission</p>
         <h2 class="text-xl font-bold text-slate-800 mb-2">Hold on to your heart please😂...</h2>
         <p class="text-sm text-slate-500 mb-6 max-w-xs">
-          Take a deep breath. The single most important question is coming right now okay😭.
+          Take a deep breath. There's something I need you to read first, and then the question😭.
         </p>
 
         <!-- Big countdown number -->
@@ -236,6 +232,30 @@
           </div>
         </div>
       </div>
+    </div>
+
+    <!-- STAGE 3.5: The Honest Letter, read before the question is asked -->
+    <div id="stage-letter" class="stage-transition w-full glass-card rounded-3xl p-7 text-left relative overflow-hidden shadow-2xl hidden opacity-0">
+      <div class="text-center">
+        <span class="inline-block py-1 px-3 rounded-full bg-pink-100 text-pink-600 text-xs font-medium mb-3">
+          Before you answer, please read this
+        </span>
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-800 mb-4">
+          Everything, honestly 🤍
+        </h2>
+      </div>
+
+      <div class="space-y-3 text-slate-600 text-sm leading-relaxed max-h-[45vh] overflow-y-auto pr-1">
+        <p>I'd like to make this official, because why not. I really really love you, but here's the honest part: I'm not supposed to have a girlfriend yet. I was given a condition — I can have one after I get my life together, and I've not done that yet. But I can't let you go😔</p>
+        <p>With that, I can't indulge in sexual activities, but I think I can kiss tho😂. Well, I'll probably sound "JON"😭 saying this, but I want to abstain from sex till marriage. That's why I didn't want to be in a relationship. Then I met you. To be honest I didn't even want to text you, then we did, and now we've gotten here. Everything does happen for a reason though😂. I don't want to lose you😭, I genuinely love you.</p>
+        <p>I feel so shy telling you all of this😭😭, but I have to tell you. I'm really hoping we don't split up because of what I just said. I'd like to wife you up, because you are awesome — you make me feel like myself, you're different, you're real. I don't even know what to say😂, but yeah. I also really hope we can both grow in Christ, because that's very necessary; there will be no us without Jesus✝️</p>
+        <p>I will get it if you don't feel the same way. I'd still love you. But I'll be very excited if you'd like us to go down this beautiful route together.</p>
+      </div>
+
+      <button id="letter-continue-btn" class="mt-6 w-full py-3.5 px-6 rounded-2xl bg-gradient-to-r from-pink-500 to-rose-400 text-white font-semibold shadow-md hover:shadow-lg hover:opacity-95 active:scale-[0.98] transition flex items-center justify-center space-x-2">
+        <span>I've read it all, ask me 💗</span>
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+      </button>
     </div>
 
     <!-- STAGE 4: The Grand Reveal & The Proposal -->
@@ -256,7 +276,7 @@
         </div>
 
         <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-800 tracking-tight mt-3 mb-1">
-          <span class="her-name-display text-pink-600 font-script text-4xl">Dear</span>,
+          <span class="her-name-display text-pink-600 font-script text-4xl">Marcellina</span>,
         </h2>
         
         <p id="proposal-headline" class="text-xl sm:text-2xl font-bold text-slate-800 mb-3 leading-snug">
@@ -291,17 +311,13 @@
       </div>
 
       <span class="text-xs uppercase font-bold tracking-widest text-pink-500">Official Milestone</span>
-      <h2 class="text-3xl font-extrabold text-slate-800 mt-1 mb-2 font-script text-4xl text-pink-600">
+      <h2 class="font-extrabold text-slate-800 mt-1 mb-2 font-script text-4xl text-pink-600">
         She Said YES! 🎉
       </h2>
 
       <p class="text-slate-600 text-sm leading-relaxed mb-6">
-        I bloody knew you wanted to be my baby😂 but on the more serious note, I can't wait for all our dates, memories, and adventures together.
+        I bloody knew you wanted to be my baby😂 but on the more serious note — you read everything and you still said yes. I can't wait for all our dates, memories, and adventures together, and for us to grow in Christ together✝️
       </p>
-      <p> I'd like to make this official, because why not, but i don't know i really really really love you, but I just can't get a girlfriend, like I can't😔, I love you i really really do, I'm not supposed to have a girlfriend..., but i was giving a condition, I can get a girlfriend after getting my shit together, and I've not done that yet, but i can't let you go😔, with that i can't indulge in sexually activities, but i think i can Kiss tho😂, Well, I'll probably sound "JON"😭 saying this but I want to abstain from sex till marriage, That's why I didn't want on be in a relationship, then i met you, to be honest I didn't even want to text you, then we did and now we have gotten here, Everything does happen for a reason though😂, I don't want to lose you😭, i genuinely love you, oh my God😔</p> <br>
-      <p>I feel so shy telling you all these😭😭, But I've to tell you though, I'm really really hoping we don't split up because of all these i just told you, I'd like to wife you up, because you are Awesome, you make me feel like myself, like you are different,you're real, I don't even know what to say😂 but yeah😂and I also really hope that we can both grow in christ, becuase that's very very necessary, there will be no us without Jesus✝️, If you'd like to take this journey with me</p> <br>
-      <p> I will get it if you don't feel the same way though, I'd still love you</p> <br>
-      <p>Well, I'll be very excited if you'd like us to down this beautiful route</p>
       <div class="bg-pink-50/70 border border-pink-100 rounded-2xl p-4 text-left mb-6">
         <div class="flex justify-between text-xs text-slate-600 py-1 border-b border-pink-100">
           <span>Date</span>
@@ -310,7 +326,6 @@
         <div class="flex justify-between text-xs text-slate-600 py-1 border-b border-pink-100">
           <span>Official Status</span>
           <span class="font-medium text-pink-600">In a relationship ❤️</span>
-        </div>
         </div>
       </div>
 
@@ -532,8 +547,10 @@
     const stage1 = document.getElementById('stage-1');
     const stage2 = document.getElementById('stage-2');
     const stage3 = document.getElementById('stage-3');
+    const stageLetter = document.getElementById('stage-letter');
     const stage4 = document.getElementById('stage-4');
     const stage5 = document.getElementById('stage-5');
+    const letterContinueBtn = document.getElementById('letter-continue-btn');
 
     const mysteryScanner = document.getElementById('mystery-scanner');
     const unlockProgress = document.getElementById('unlock-progress');
@@ -557,36 +574,13 @@
     const soundIconOn = document.getElementById('sound-icon-on');
     const soundIconOff = document.getElementById('sound-icon-off');
 
-    const customizeBtn = document.getElementById('personalize-btn');
-    const customizeModal = document.getElementById('customize-modal');
-    const closeModalBtn = document.getElementById('close-modal-btn');
-    const customizeForm = document.getElementById('customize-form');
-    const inputHerName = document.getElementById('input-her-name');
-    const inputHisName = document.getElementById('input-his-name');
-    const inputNote1 = document.getElementById('input-note-1');
-    const inputNote2 = document.getElementById('input-note-2');
-    const copyUrlBtn = document.getElementById('copy-url-btn');
-    const shareToast = document.getElementById('share-toast');
-
     // Parse query params for personalized links (e.g. ?her=Emma&his=Daniel)
     function applyUrlParams() {
       const urlParams = new URLSearchParams(window.location.search);
-      if (urlParams.get('her')) {
-        state.herName = urlParams.get('her');
-        inputHerName.value = state.herName;
-      }
-      if (urlParams.get('his')) {
-        state.hisName = urlParams.get('his');
-        inputHisName.value = state.hisName;
-      }
-      if (urlParams.get('n1')) {
-        state.notes[0].body = urlParams.get('n1');
-        inputNote1.value = state.notes[0].body;
-      }
-      if (urlParams.get('n2')) {
-        state.notes[1].body = urlParams.get('n2');
-        inputNote2.value = state.notes[1].body;
-      }
+      if (urlParams.get('her')) state.herName = urlParams.get('her');
+      if (urlParams.get('his')) state.hisName = urlParams.get('his');
+      if (urlParams.get('n1')) state.notes[0].body = urlParams.get('n1');
+      if (urlParams.get('n2')) state.notes[1].body = urlParams.get('n2');
       renderNames();
     }
 
@@ -662,7 +656,7 @@
       });
 
       if (state.noteIndex === state.notes.length - 1) {
-        noteNextBtn.innerHTML = `<span>Ready for the mystery</span><svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path></svg>`;
+        noteNextBtn.innerHTML = `<span>Ready</span><svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path></svg>`;
       } else {
         noteNextBtn.innerHTML = `<span>Continue reading</span><svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>`;
       }
@@ -697,7 +691,7 @@
           countdownNumber.textContent = "❤️";
           soundFx.playSuccessNote();
           setTimeout(() => {
-            goToStage(stage3, stage4);
+            goToStage(stage3, stageLetter);
           }, 700);
         }
       }, 1000);
@@ -741,6 +735,11 @@
     // Bind iOS Safari touch and pointer events alongside mouseover
     ['touchstart', 'pointerdown', 'mouseover'].forEach(event => {
       noBtn.addEventListener(event, dodgeNoButton, { passive: false });
+    });
+
+    letterContinueBtn.addEventListener('click', () => {
+      soundFx.playTap();
+      goToStage(stageLetter, stage4);
     });
 
     // Confetti celebration trigger
@@ -798,6 +797,7 @@
       noBtn.textContent = 'No 🙈';
       yesBtn.style.transform = 'scale(1)';
       yesBtn.setAttribute('data-scale', '1');
+      refusalIndex = 0;
       document.getElementById('screenshot-footer').classList.add('hidden');
       goToStage(stage5, stage1);
     });
@@ -820,62 +820,6 @@
         soundFx.playTap();
         soundFx.startBackgroundMelody();
       }
-    });
-
-    // Modal behavior
-    customizeBtn.addEventListener('click', () => {
-      customizeModal.classList.remove('hidden');
-      setTimeout(() => {
-        customizeModal.classList.remove('opacity-0');
-        customizeModal.firstElementChild.classList.remove('scale-95');
-      }, 10);
-    });
-
-    function closeModal() {
-      customizeModal.classList.add('opacity-0');
-      customizeModal.firstElementChild.classList.add('scale-95');
-      setTimeout(() => customizeModal.classList.add('hidden'), 200);
-      shareToast.classList.add('hidden');
-    }
-
-    closeModalBtn.addEventListener('click', closeModal);
-    customizeModal.addEventListener('click', (e) => {
-      if (e.target === customizeModal) closeModal();
-    });
-
-    customizeForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      state.herName = inputHerName.value.trim() || 'Sarah';
-      state.hisName = inputHisName.value.trim() || 'Alex';
-      state.notes[0].body = inputNote1.value.trim() || state.notes[0].body;
-      state.notes[1].body = inputNote2.value.trim() || state.notes[1].body;
-      renderNames();
-      updateNoteDisplay();
-      closeModal();
-      soundFx.playSuccessNote();
-    });
-
-    copyUrlBtn.addEventListener('click', () => {
-      const base = window.location.origin + window.location.pathname;
-      const params = new URLSearchParams();
-      params.set('her', inputHerName.value.trim() || state.herName);
-      params.set('his', inputHisName.value.trim() || state.hisName);
-      params.set('n1', inputNote1.value.trim() || state.notes[0].body);
-      params.set('n2', inputNote2.value.trim() || state.notes[1].body);
-
-      const generatedUrl = `${base}?${params.toString()}`;
-      
-      // Use execCommand copy compatibility
-      const dummyInput = document.createElement('input');
-      document.body.appendChild(dummyInput);
-      dummyInput.value = generatedUrl;
-      dummyInput.select();
-      document.execCommand('copy');
-      document.body.removeChild(dummyInput);
-
-      shareToast.classList.remove('hidden');
-      setTimeout(() => shareToast.classList.add('hidden'), 3500);
-      soundFx.playSuccessNote();
     });
 
     // Init call

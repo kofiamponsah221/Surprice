@@ -296,11 +296,35 @@
             <span class="text-xl">💖</span>
           </button>
 
-          <!-- Playful Evasive NO Button -->
+          <!-- A real, honest NO -->
           <button id="no-btn" class="mt-3 text-xs text-slate-400 font-medium px-4 py-2 rounded-xl transition-all duration-200 hover:text-slate-600">
-            <span>No 🙈</span>
+            <span>Not right now 🤍</span>
           </button>
         </div>
+      </div>
+    </div>
+
+    <!-- STAGE 5b: If she says no. No guilt, no pressure. -->
+    <div id="stage-no" class="stage-transition w-full glass-card rounded-3xl p-8 text-center relative overflow-hidden shadow-2xl hidden opacity-0">
+      <div class="w-20 h-20 mx-auto rounded-full bg-slate-100 text-slate-500 flex items-center justify-center text-4xl mb-4 shadow-sm">
+        🤍
+      </div>
+
+      <h2 class="font-extrabold text-slate-800 mt-1 mb-3 font-script text-4xl text-slate-600">
+        Thank you for being honest
+      </h2>
+
+      <p class="text-slate-600 text-sm leading-relaxed mb-4">
+        I meant what I said — I get it, and I'd still love you. You don't owe me a yes, and nothing about us has to change because of this. Take all the time you need🤍
+      </p>
+      <p class="text-slate-500 text-sm leading-relaxed mb-6">
+        I'm glad I told you everything either way. Thank you for reading it all.
+      </p>
+
+      <div class="flex flex-col gap-2">
+        <button id="no-back-btn" class="text-xs text-slate-400 hover:text-pink-500 transition py-1">
+          Take me back to the question ↺
+        </button>
       </div>
     </div>
 
@@ -549,6 +573,7 @@
     const stage3 = document.getElementById('stage-3');
     const stageLetter = document.getElementById('stage-letter');
     const stage4 = document.getElementById('stage-4');
+    const stageNo = document.getElementById('stage-no');
     const stage5 = document.getElementById('stage-5');
     const letterContinueBtn = document.getElementById('letter-continue-btn');
 
@@ -567,6 +592,7 @@
     const countdownNumber = document.getElementById('countdown-number');
     const yesBtn = document.getElementById('yes-btn');
     const noBtn = document.getElementById('no-btn');
+    const noBackBtn = document.getElementById('no-back-btn');
     const replayBtn = document.getElementById('replay-btn');
     const buttonsPlayground = document.getElementById('buttons-playground');
 
@@ -697,44 +723,16 @@
       }, 1000);
     }
 
-    const playfulRefusals = [
-      "Wait, think again! 🥺",
-      "Are you positive? 😉",
-      "Nice try, button is shy! 🙈",
-      "Oops, clicked wrong button! 😜",
-      "Error 404: No option not found ❤️",
-      "Come on, you know you want to say Yes! 🥰"
-    ];
-    let refusalIndex = 0;
-
-    function dodgeNoButton(e) {
-      if (e && e.cancelable) e.preventDefault();
+    noBtn.addEventListener('click', () => {
       soundFx.playTap();
-      
-      // Calculate safe random coordinates inside the window viewport for iOS fixed positioning
-      const maxX = window.innerWidth - noBtn.offsetWidth - 30;
-      const maxY = window.innerHeight - noBtn.offsetHeight - 30;
+      goToStage(stage4, stageNo);
+      document.getElementById('screenshot-footer').classList.remove('hidden');
+    });
 
-      const randomX = Math.max(20, Math.floor(Math.random() * maxX));
-      const randomY = Math.max(20, Math.floor(Math.random() * maxY));
-
-      noBtn.style.position = 'fixed';
-      noBtn.style.left = `${randomX}px`;
-      noBtn.style.top = `${randomY}px`;
-      noBtn.style.transform = 'none'; // Clear any previous translates
-      noBtn.textContent = playfulRefusals[refusalIndex % playfulRefusals.length];
-      refusalIndex++;
-
-      // Make the YES button grow subtly each time NO is attempted
-      const currentScale = parseFloat(yesBtn.getAttribute('data-scale') || '1');
-      const newScale = Math.min(currentScale + 0.05, 1.25);
-      yesBtn.setAttribute('data-scale', newScale);
-      yesBtn.style.transform = `scale(${newScale})`;
-    }
-
-    // Bind iOS Safari touch and pointer events alongside mouseover
-    ['touchstart', 'pointerdown', 'mouseover'].forEach(event => {
-      noBtn.addEventListener(event, dodgeNoButton, { passive: false });
+    noBackBtn.addEventListener('click', () => {
+      soundFx.playTap();
+      goToStage(stageNo, stage4);
+      document.getElementById('screenshot-footer').classList.add('hidden');
     });
 
     letterContinueBtn.addEventListener('click', () => {
@@ -790,14 +788,6 @@
       unlockProgress.style.width = '0%';
       unlockHint.textContent = `"Tap the scanner to verify it's you..."`;
       mysteryScanner.disabled = false;
-      noBtn.style.position = 'relative'; // Reset position properties
-      noBtn.style.left = 'auto';
-      noBtn.style.top = 'auto';
-      noBtn.style.transform = 'translate(0px, 0px)';
-      noBtn.textContent = 'No 🙈';
-      yesBtn.style.transform = 'scale(1)';
-      yesBtn.setAttribute('data-scale', '1');
-      refusalIndex = 0;
       document.getElementById('screenshot-footer').classList.add('hidden');
       goToStage(stage5, stage1);
     });

@@ -1,0 +1,905 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>A Secret Message Just For You, You might like it😉✨</title>
+  <!-- Google Fonts: Outfit & Dancing Script -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Canvas Confetti Library for the celebration -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            outfit: ['Outfit', 'sans-serif'],
+            script: ['Dancing Script', 'cursive'],
+          },
+          colors: {
+            roseGold: '#e0a9af',
+            blush: {
+              50: '#fff5f7',
+              100: '#ffe3e8',
+              200: '#ffccd6',
+              300: '#ff9fb2',
+              400: '#fb6a8c',
+              500: '#f43f68',
+              600: '#e11d4d',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    /* Smooth background glow gradient */
+    body {
+      background: radial-gradient(circle at 50% 10%, #ffeef3 0%, #fdf2f8 35%, #f5eefc 70%, #ede9fe 100%);
+      font-family: 'Outfit', sans-serif;
+      overflow-x: hidden;
+      min-height: 100vh;
+      min-height: 100dvh;
+      -webkit-overflow-scrolling: touch;
+    }
+    
+    /* Disable zoom and grey highlight on iOS tap */
+    button, a, input, #mystery-scanner {
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+    }
+    
+    /* Glassmorphism utility card */
+    .glass-card {
+      background: rgba(255, 255, 255, 0.78);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(255, 255, 255, 0.9);
+      box-shadow: 0 20px 45px -10px rgba(244, 63, 94, 0.15), 0 8px 16px -6px rgba(168, 85, 247, 0.1);
+    }
+
+    /* Floating ambient hearts canvas */
+    #hearts-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* Pulse animation for key elements */
+    @keyframes gentle-pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.06); }
+    }
+    .animate-gentle-pulse {
+      animation: gentle-pulse 2.2s infinite ease-in-out;
+    }
+
+    /* Heartbeat animation for drumroll suspense */
+    @keyframes heartbeat {
+      0% { transform: scale(1); }
+      14% { transform: scale(1.18); }
+      28% { transform: scale(1); }
+      42% { transform: scale(1.22); }
+      70% { transform: scale(1); }
+    }
+    .animate-heartbeat {
+      animation: heartbeat 1s infinite ease-in-out;
+    }
+
+    /* Smooth page fade transitions */
+    .stage-transition {
+      transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+  </style>
+</head>
+<body class="text-slate-800 flex flex-col justify-between items-center selection:bg-pink-200">
+
+  <!-- Background decorative floating particle canvas -->
+  <canvas id="hearts-canvas"></canvas>
+
+  <!-- Top bar with audio toggle & customization trigger -->
+  <header class="w-full max-w-2xl px-6 py-4 flex justify-between items-center z-20">
+    <div class="flex items-center space-x-2 text-pink-600 font-script text-2xl tracking-wide">
+      <span class="inline-block transform -rotate-6">✨</span>
+      <span>A little surprise</span>
+    </div>
+    <div class="flex items-center space-x-2">
+      <button id="sound-btn" class="p-2.5 rounded-full bg-white/70 hover:bg-white text-pink-500 shadow-sm transition-all duration-200" title="Toggle Sound">
+        <!-- Lucide Volume2 / VolumeX Icon -->
+        <svg id="sound-icon-on" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+          <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+          <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+        </svg>
+        <svg id="sound-icon-off" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+          <line x1="23" y1="9" x2="17" y2="15"></line>
+          <line x1="17" y1="9" x2="23" y2="15"></line>
+        </svg>
+      </button>
+      <button id="personalize-btn" class="px-3.5 py-1.5 rounded-full text-xs font-medium bg-white/70 hover:bg-white text-slate-600 shadow-sm border border-pink-100 flex items-center space-x-1.5 transition-all">
+        <svg class="w-3.5 h-3.5 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
+        <span>Customize</span>
+      </button>
+    </div>
+  </header>
+
+  <main class="w-full max-w-md px-4 py-6 z-10 flex-grow flex items-center justify-center">
+
+    <!-- STAGE 1: The Teaser / Mystery Scanner -->
+    <div id="stage-1" class="stage-transition w-full glass-card rounded-3xl p-7 text-center relative overflow-hidden shadow-2xl">
+      <!-- Glow ambient orb inside card -->
+      <div class="absolute -top-12 -right-12 w-32 h-32 bg-pink-300 rounded-full blur-2xl opacity-40 pointer-events-none"></div>
+      <div class="absolute -bottom-12 -left-12 w-32 h-32 bg-purple-300 rounded-full blur-2xl opacity-40 pointer-events-none"></div>
+
+      <div class="inline-flex p-4 rounded-full bg-pink-100/70 text-pink-500 mb-5 animate-gentle-pulse">
+        <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <rect x="3" y="11" width="18" height="11" rx="2" ry="2" stroke-width="2"></rect>
+          <path d="M7 11V7a5 5 0 0 1 10 0v4" stroke-width="2"></path>
+        </svg>
+      </div>
+
+      <h1 class="text-2xl sm:text-3xl font-bold tracking-tight text-slate-800 mb-2">
+        A Secret For <span class="her-name-display text-pink-500 font-script text-3xl">The Lady I Love</span>
+      </h1>
+      <p class="text-sm text-slate-500 mb-6 leading-relaxed">
+       I built a tiny universe with a message kept under strict lock and key. Only you can decrypt it.
+      </p>
+
+      <!-- Mystery Unlock Scanner Button -->
+      <div class="flex flex-col items-center">
+        <button id="mystery-scanner" class="relative group w-28 h-28 rounded-full bg-gradient-to-tr from-pink-500 via-rose-400 to-purple-400 p-1 shadow-lg hover:shadow-pink-300/50 hover:scale-105 active:scale-95 transition duration-300 flex items-center justify-center focus:outline-none">
+          <div class="w-full h-full bg-white rounded-full flex flex-col items-center justify-center text-pink-500 group-hover:bg-pink-50/50 transition">
+            <!-- Fingerprint SVG icon -->
+            <svg class="w-10 h-10 group-hover:scale-110 transition duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 11c0 3.517-1.009 6.799-2.753 9.571m-3.44-2.04l.054-.09A13.916 13.916 0 008 11a4 4 0 118 0c0 1.017-.07 2.019-.203 3m-2.118 6.844A21.88 21.88 0 0015.171 17m3.839 1.132c.645-2.266.99-4.659.99-7.132A8 8 0 004 11m12 0a4 4 0 00-8 0v.001"></path>
+            </svg>
+            <span class="text-[10px] uppercase font-semibold tracking-wider text-pink-600 mt-1">Tap To Unlock</span>
+          </div>
+        </button>
+
+        <!-- Tap progress & playful teaser hints -->
+        <div class="w-full mt-6">
+          <div class="w-full bg-pink-100 rounded-full h-2 mb-3 overflow-hidden">
+            <div id="unlock-progress" class="bg-gradient-to-r from-pink-400 to-purple-500 h-2 rounded-full w-0 transition-all duration-300"></div>
+          </div>
+          <p id="unlock-hint" class="text-xs font-medium text-pink-500 italic h-6 transition-opacity">
+            "Pless tap the scanner to verify it's you..."
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- STAGE 2: Memory Lane / Cute Trivia -->
+    <div id="stage-2" class="stage-transition w-full glass-card rounded-3xl p-7 text-center relative overflow-hidden shadow-2xl hidden opacity-0">
+      <div class="flex items-center justify-between mb-4">
+        <span class="text-xs uppercase font-bold tracking-widest text-pink-500 bg-pink-100 px-2.5 py-1 rounded-full">
+          Confidential Note #<span id="note-step-counter">1</span>
+        </span>
+        <span class="text-xs text-slate-400 font-medium">Chapter <span id="chapter-number">I</span></span>
+      </div>
+
+      <!-- Illustrated Icon Box -->
+      <div class="my-4 flex justify-center">
+        <div id="note-icon-container" class="w-16 h-16 rounded-2xl bg-pink-100 flex items-center justify-center text-pink-500 text-3xl shadow-inner transition-transform duration-300">
+          🌸
+        </div>
+      </div>
+
+      <h2 id="note-title" class="text-xl sm:text-2xl font-bold text-slate-800 mb-3">
+        The First Thing I Noticed
+      </h2>
+      <p id="note-body" class="text-slate-600 text-sm leading-relaxed min-h-[70px] flex items-center justify-center px-2">
+       Your beautiful face that got me tripping😭😂. Just that video/picture was that took for me to notice you.
+      </p>
+
+      <!-- Stepper dots -->
+      <div class="flex justify-center space-x-2 my-5">
+        <div class="step-dot w-2 h-2 rounded-full bg-pink-500 transition-all duration-300"></div>
+        <div class="step-dot w-2 h-2 rounded-full bg-pink-200 transition-all duration-300"></div>
+        <div class="step-dot w-2 h-2 rounded-full bg-pink-200 transition-all duration-300"></div>
+      </div>
+
+      <button id="note-next-btn" class="w-full py-3.5 px-6 rounded-2xl bg-gradient-to-r from-pink-500 to-rose-400 text-white font-semibold shadow-md hover:shadow-lg hover:opacity-95 active:scale-[0.98] transition flex items-center justify-center space-x-2">
+        <span>Continue reading please😂</span>
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+      </button>
+    </div>
+
+    <!-- STAGE 3: The Suspense Countdown / Drumroll -->
+    <div id="stage-3" class="stage-transition w-full glass-card rounded-3xl p-8 text-center relative overflow-hidden shadow-2xl hidden opacity-0">
+      <div class="py-6 flex flex-col items-center">
+        <div class="w-24 h-24 rounded-full bg-rose-50 flex items-center justify-center mb-6 shadow-inner animate-heartbeat text-rose-500">
+          <svg class="w-14 h-14" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+          </svg>
+        </div>
+
+        <p class="text-xs font-semibold tracking-widest text-purple-600 uppercase mb-2">Preparing Main Transmission</p>
+        <h2 class="text-xl font-bold text-slate-800 mb-2">Hold on to your heart...</h2>
+        <p class="text-sm text-slate-500 mb-6 max-w-xs">
+          Take a deep breath. The single most important question is coming right now okay😭.
+        </p>
+
+        <!-- Big countdown number -->
+        <div class="relative flex items-center justify-center">
+          <div id="countdown-number" class="text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-purple-600 font-outfit transform transition-all duration-300 scale-100">
+            3
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STAGE 4: The Grand Reveal & The Proposal -->
+    <div id="stage-4" class="stage-transition w-full glass-card rounded-3xl p-7 text-center relative overflow-hidden shadow-2xl hidden opacity-0">
+      <div class="relative">
+        <!-- Floating celebratory mini badge -->
+        <span class="inline-block py-1 px-3 rounded-full bg-pink-100 text-pink-600 text-xs font-medium mb-3">
+          ✨ The Big Question ✨
+        </span>
+
+        <!-- Animated 3D-styled romantic beating heart illustration -->
+        <div class="my-3 flex justify-center">
+          <div class="w-20 h-20 rounded-full bg-gradient-to-tr from-pink-400 via-rose-500 to-pink-300 p-1 animate-gentle-pulse shadow-xl shadow-pink-300/60 flex items-center justify-center">
+            <svg class="w-12 h-12 text-white" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+            </svg>
+          </div>
+        </div>
+
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-800 tracking-tight mt-3 mb-1">
+          <span class="her-name-display text-pink-600 font-script text-4xl">Dear</span>,
+        </h2>
+        
+        <p id="proposal-headline" class="text-xl sm:text-2xl font-bold text-slate-800 mb-3 leading-snug">
+          Will you make me the luckiest person in the world and be my girlfriend?
+        </p>
+
+        <p class="text-xs sm:text-sm text-slate-500 mb-8 max-w-xs mx-auto leading-relaxed">
+          I promise I will care and love you always.
+        </p>
+
+        <!-- Interactive Answer Buttons -->
+        <div id="buttons-playground" class="relative min-h-[130px] flex flex-col items-center justify-center">
+          
+          <!-- YES Button -->
+          <button id="yes-btn" class="w-full max-w-[260px] py-4 px-6 rounded-2xl bg-gradient-to-r from-pink-500 via-rose-500 to-rose-400 text-white font-bold text-lg shadow-lg shadow-pink-400/40 hover:shadow-pink-400/70 hover:scale-105 active:scale-95 transition-all duration-200 z-10 flex items-center justify-center space-x-2">
+            <span>YES, absolutely!</span>
+            <span class="text-xl">💖</span>
+          </button>
+
+          <!-- Playful Evasive NO Button -->
+          <button id="no-btn" class="mt-3 text-xs text-slate-400 font-medium px-4 py-2 rounded-xl transition-all duration-200 hover:text-slate-600">
+            <span>No 🙈</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- STAGE 5: Celebration Success Screen -->
+    <div id="stage-5" class="stage-transition w-full glass-card rounded-3xl p-8 text-center relative overflow-hidden shadow-2xl hidden opacity-0">
+      <div class="w-20 h-20 mx-auto rounded-full bg-green-100 text-green-500 flex items-center justify-center text-4xl mb-4 shadow-sm animate-bounce">
+        💍
+      </div>
+
+      <span class="text-xs uppercase font-bold tracking-widest text-pink-500">Official Milestone</span>
+      <h2 class="text-3xl font-extrabold text-slate-800 mt-1 mb-2 font-script text-4xl text-pink-600">
+        She Said YES! 🎉
+      </h2>
+
+      <p class="text-slate-600 text-sm leading-relaxed mb-6">
+        You just made me the happiest person in the universe! I can't wait for all our dates, silly memories, and adventures together.
+      </p>
+
+      <div class="bg-pink-50/70 border border-pink-100 rounded-2xl p-4 text-left mb-6">
+        <p class="text-xs font-semibold uppercase text-pink-400 tracking-wider mb-1">Status Report</p>
+        <div class="flex justify-between text-xs text-slate-600 py-1 border-b border-pink-100">
+          <span>Date</span>
+          <span id="celebration-date" class="font-medium text-slate-800">Today</span>
+        </div>
+        <div class="flex justify-between text-xs text-slate-600 py-1 border-b border-pink-100">
+          <span>Official Status</span>
+          <span class="font-medium text-pink-600">In a relationship ❤️</span>
+        </div>
+        <div class="flex justify-between text-xs text-slate-600 pt-1">
+          <span>Next step</span>
+          <span class="font-medium text-slate-800">Celebration treat! 🍦</span>
+        </div>
+      </div>
+
+      <div class="flex flex-col gap-2">
+        <button id="send-confirmation-btn" class="w-full py-3 px-4 rounded-xl bg-pink-500 text-white font-medium text-sm hover:bg-pink-600 transition flex items-center justify-center space-x-2">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
+          <span id="send-confirmation-label">Screenshot & Send to Him 📸</span>
+        </button>
+        <button id="replay-btn" class="text-xs text-slate-400 hover:text-pink-500 transition py-1">
+          Replay surprise from the beginning ↺
+        </button>
+      </div>
+    </div>
+  </main>
+
+  <!-- Personalize / Customization Modal for GitHub deployment -->
+  <div id="customize-modal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden opacity-0 transition-opacity duration-200">
+    <div class="bg-white rounded-3xl max-w-sm w-full p-6 shadow-2xl transform transition-transform duration-200 scale-95 border border-pink-100">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="text-lg font-bold text-slate-800 flex items-center space-x-2">
+          <span>Personalize Your Page</span>
+          <span>✍️</span>
+        </h3>
+        <button id="close-modal-btn" class="text-slate-400 hover:text-slate-600 p-1">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+      </div>
+
+      <p class="text-xs text-slate-500 mb-4">
+        Customize the names and notes before you share the GitHub Pages link with her!
+      </p>
+
+      <form id="customize-form" class="space-y-3.5 text-left text-xs">
+        <div>
+          <label class="block font-medium text-slate-700 mb-1">Marcellina</label>
+          <input type="text" id="input-her-name" value="Sarah" class="w-full px-3 py-2 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-300">
+        </div>
+        <div>
+          <label class="block font-medium text-slate-700 mb-1">Nana Kofi</label>
+          <input type="text" id="input-his-name" value="Alex" class="w-full px-3 py-2 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-300">
+        </div>
+        <div>
+          <label class="block font-medium text-slate-700 mb-1">Note 1 (The Hook)</label>
+          <input type="text" id="input-note-1" value="There was this effortless charm and warmth about you from day one." class="w-full px-3 py-2 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-300">
+        </div>
+        <div>
+          <label class="block font-medium text-slate-700 mb-1">Note 2 (Cute Memory)</label>
+          <input type="text" id="input-note-2" value="Every conversation with you quickly became my favorite part of the day." class="w-full px-3 py-2 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-300">
+        </div>
+
+        <div class="pt-2 flex space-x-2">
+          <button type="submit" class="flex-1 py-2.5 rounded-xl bg-pink-500 hover:bg-pink-600 text-white font-semibold transition text-center">
+            Save & Update
+          </button>
+          <button type="button" id="copy-url-btn" class="px-3 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium transition" title="Get shareable link with parameters">
+            Share Link
+          </button>
+        </div>
+        <p id="share-toast" class="text-[11px] text-green-600 text-center hidden">Link copied with personalized parameters!</p>
+      </form>
+    </div>
+  </div>
+
+  <footer class="w-full max-w-2xl px-6 py-4 text-center text-xs text-slate-400 z-10">
+    <p>Crafted with love & curiosity &bull; Ready for GitHub Pages</p>
+  </footer>
+
+  <script>
+    /* Web Audio API Sound Synth (No external audio files required) */
+    class RomanticSoundEffects {
+      constructor() {
+        this.ctx = null;
+        this.isMuted = false;
+      }
+
+      initContext() {
+        if (!this.ctx) {
+          const AudioContext = window.AudioContext || window.webkitAudioContext;
+          this.ctx = new AudioContext();
+        }
+        if (this.ctx && this.ctx.state === 'suspended') {
+          this.ctx.resume();
+        }
+      }
+
+      playTone(freq, type = 'sine', duration = 0.2, gainValue = 0.1) {
+        if (this.isMuted) return;
+        try {
+          this.initContext();
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          osc.type = type;
+          osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
+          
+          gain.gain.setValueAtTime(gainValue, this.ctx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + duration);
+
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+          osc.start();
+          osc.stop(this.ctx.currentTime + duration);
+        } catch (e) {
+          // Audio fallback gracefully silent
+        }
+      }
+
+      playTap() {
+        this.playTone(520, 'sine', 0.15, 0.12);
+      }
+
+      playSuccessNote() {
+        if (this.isMuted) return;
+        const notes = [440, 554.37, 659.25]; // A major chord arpeggio
+        notes.forEach((freq, idx) => {
+          setTimeout(() => this.playTone(freq, 'sine', 0.25, 0.1), idx * 80);
+        });
+      }
+
+      playDrumrollPulse(count) {
+        this.playTone(200 + (3 - count) * 80, 'triangle', 0.2, 0.15);
+      }
+
+      playCelebrationFanfare() {
+        if (this.isMuted) return;
+        const melody = [523.25, 659.25, 783.99, 1046.50]; // C, E, G, High C
+        melody.forEach((note, index) => {
+          setTimeout(() => {
+            this.playTone(note, 'sine', 0.45, 0.18);
+          }, index * 130);
+        });
+      }
+    }
+
+    const soundFx = new RomanticSoundEffects();
+  </script>
+
+  <script>
+    /* Ambient Floating Particle Canvas */
+    const canvas = document.getElementById('hearts-canvas');
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+    let width = 0;
+    let height = 0;
+
+    function resizeCanvas() {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    class FloatingHeart {
+      constructor() {
+        this.reset();
+      }
+      reset() {
+        this.x = Math.random() * width;
+        this.y = height + 20 + Math.random() * 40;
+        this.size = 10 + Math.random() * 16;
+        this.speedY = 0.5 + Math.random() * 1.2;
+        this.speedX = Math.sin(Math.random() * Math.PI * 2) * 0.5;
+        this.opacity = 0.2 + Math.random() * 0.4;
+        this.rotation = (Math.random() - 0.5) * 0.4;
+        this.color = Math.random() > 0.4 ? 'rgba(244, 114, 182,' : 'rgba(216, 180, 254,';
+      }
+      update() {
+        this.y -= this.speedY;
+        this.x += this.speedX;
+        if (this.y < -30) {
+          this.reset();
+        }
+      }
+      draw() {
+        ctx.save();
+        ctx.translate(this.x, this.y);
+        ctx.rotate(this.rotation);
+        ctx.fillStyle = `${this.color} ${this.opacity})`;
+        ctx.beginPath();
+        const topCurveHeight = this.size * 0.3;
+        ctx.moveTo(0, topCurveHeight);
+        // Draw heart shape using cubic beziers
+        ctx.bezierCurveTo(0, 0, -this.size / 2, 0, -this.size / 2, topCurveHeight);
+        ctx.bezierCurveTo(-this.size / 2, (this.size + topCurveHeight) / 2, 0, (this.size + topCurveHeight) / 1.4, 0, this.size);
+        ctx.bezierCurveTo(0, (this.size + topCurveHeight) / 1.4, this.size / 2, (this.size + topCurveHeight) / 2, this.size / 2, topCurveHeight);
+        ctx.bezierCurveTo(this.size / 2, 0, 0, 0, 0, topCurveHeight);
+        ctx.closePath();
+        ctx.fill();
+        ctx.restore();
+      }
+    }
+
+    // Initialize 24 floating background hearts
+    for (let i = 0; i < 24; i++) {
+      const p = new FloatingHeart();
+      p.y = Math.random() * height; // Spread across screen on load
+      particles.push(p);
+    }
+
+    function animateParticles() {
+      ctx.clearRect(0, 0, width, height);
+      particles.forEach(p => {
+        p.update();
+        p.draw();
+      });
+      requestAnimationFrame(animateParticles);
+    }
+    animateParticles();
+  </script>
+
+  <script>
+    // State management
+    const state = {
+      herName: 'Marcellina',
+      hisName: 'Nana Kofi',
+      currentStage: 1,
+      scanTaps: 0,
+      tapsRequired: 5,
+      noteIndex: 0,
+      notes: [
+        {
+          title: "The First Thing I Noticed",
+          icon: "✨",
+          body: "There was this effortless charm and warmth about you. One simple conversation was all that was needed to make my ordinary days feel special."
+        },
+        {
+          title: "Why You're So Special",
+          icon: "🧸",
+          body: "I just know you're real, like you are not faking it, you make everything comfortable, I just love talking to you."
+        },
+        {
+          title: "A Question I Must Ask",
+          icon: "💌",
+
+          body: "I'd like to make this official, because why not, but i don't know i really really really love you, but I just can't get a girlfriend, like I can't😔, I love you i really really do, I'm not allowed to have a girlfriend..., but i was giving a condition, I can get a girlfriend after getting my shit together, and with that i cant indulge in a sexually realated activities, because I can't, it is litteraly because the bible actually talks about it, that's part of the reasons I'm not allowed to be in a relationship, I don't want to lose you😭, i genuinely love you oh my God😔 "
+          
+        }
+      ]
+    };
+
+    // DOM Elements
+    const stage1 = document.getElementById('stage-1');
+    const stage2 = document.getElementById('stage-2');
+    const stage3 = document.getElementById('stage-3');
+    const stage4 = document.getElementById('stage-4');
+    const stage5 = document.getElementById('stage-5');
+
+    const mysteryScanner = document.getElementById('mystery-scanner');
+    const unlockProgress = document.getElementById('unlock-progress');
+    const unlockHint = document.getElementById('unlock-hint');
+
+    const noteStepCounter = document.getElementById('note-step-counter');
+    const chapterNumber = document.getElementById('chapter-number');
+    const noteIconContainer = document.getElementById('note-icon-container');
+    const noteTitle = document.getElementById('note-title');
+    const noteBody = document.getElementById('note-body');
+    const noteNextBtn = document.getElementById('note-next-btn');
+    const stepDots = document.querySelectorAll('.step-dot');
+
+    const countdownNumber = document.getElementById('countdown-number');
+    const yesBtn = document.getElementById('yes-btn');
+    const noBtn = document.getElementById('no-btn');
+    const replayBtn = document.getElementById('replay-btn');
+    const buttonsPlayground = document.getElementById('buttons-playground');
+
+    const soundBtn = document.getElementById('sound-btn');
+    const soundIconOn = document.getElementById('sound-icon-on');
+    const soundIconOff = document.getElementById('sound-icon-off');
+
+    const customizeBtn = document.getElementById('personalize-btn');
+    const customizeModal = document.getElementById('customize-modal');
+    const closeModalBtn = document.getElementById('close-modal-btn');
+    const customizeForm = document.getElementById('customize-form');
+    const inputHerName = document.getElementById('input-her-name');
+    const inputHisName = document.getElementById('input-his-name');
+    const inputNote1 = document.getElementById('input-note-1');
+    const inputNote2 = document.getElementById('input-note-2');
+    const copyUrlBtn = document.getElementById('copy-url-btn');
+    const shareToast = document.getElementById('share-toast');
+
+    // Parse query params for personalized links (e.g. ?her=Emma&his=Daniel)
+    function applyUrlParams() {
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.get('her')) {
+        state.herName = urlParams.get('her');
+        inputHerName.value = state.herName;
+      }
+      if (urlParams.get('his')) {
+        state.hisName = urlParams.get('his');
+        inputHisName.value = state.hisName;
+      }
+      if (urlParams.get('n1')) {
+        state.notes[0].body = urlParams.get('n1');
+        inputNote1.value = state.notes[0].body;
+      }
+      if (urlParams.get('n2')) {
+        state.notes[1].body = urlParams.get('n2');
+        inputNote2.value = state.notes[1].body;
+      }
+      renderNames();
+    }
+
+    function renderNames() {
+      document.querySelectorAll('.her-name-display').forEach(el => {
+        el.textContent = state.herName;
+      });
+      document.getElementById('celebration-date').textContent = new Date().toLocaleDateString(undefined, {
+        month: 'short',
+        day: 'numeric',
+        year: 'numeric'
+      });
+    }
+
+    function goToStage(fromEl, toEl) {
+      fromEl.classList.add('opacity-0');
+      setTimeout(() => {
+        fromEl.classList.add('hidden');
+        toEl.classList.remove('hidden');
+        // Trigger reflow
+        void toEl.offsetWidth;
+        toEl.classList.remove('opacity-0');
+      }, 350);
+    }
+
+    // STAGE 1: Mystery Fingerprint Scanner
+    const teaserPhrases = [
+      "Analyzing heart signature... Keep tapping! 🌸",
+      "Almost there... Are you sure you're ready? 😉",
+      "Warming up curiosity engines... 🚀",
+      "Identity confirmed: 100% Angelic! ✨",
+      "Decryption complete! Unlocking the story..."
+    ];
+
+    mysteryScanner.addEventListener('click', (e) => {
+      // Initialize Web Audio on first user interaction (crucial for iOS autoplay policies)
+      soundFx.initContext();
+      soundFx.playTap();
+      state.scanTaps++;
+      const progressPercent = Math.min((state.scanTaps / state.tapsRequired) * 100, 100);
+      unlockProgress.style.width = `${progressPercent}%`;
+
+      if (state.scanTaps < state.tapsRequired) {
+        unlockHint.textContent = `"${teaserPhrases[state.scanTaps - 1]}"`;
+      } else {
+        unlockHint.textContent = `"${teaserPhrases[4]}"`;
+        soundFx.playSuccessNote();
+        mysteryScanner.disabled = true;
+        setTimeout(() => {
+          goToStage(stage1, stage2);
+          updateNoteDisplay();
+        }, 900);
+      }
+    });
+
+    const romanNumerals = ['I', 'II', 'III'];
+    function updateNoteDisplay() {
+      const currentNote = state.notes[state.noteIndex];
+      noteStepCounter.textContent = state.noteIndex + 1;
+      chapterNumber.textContent = romanNumerals[state.noteIndex] || 'I';
+      noteTitle.textContent = currentNote.title;
+      noteBody.textContent = currentNote.body;
+      noteIconContainer.textContent = currentNote.icon;
+
+      // Update dots
+      stepDots.forEach((dot, idx) => {
+        if (idx === state.noteIndex) {
+          dot.className = "step-dot w-5 h-2 rounded-full bg-pink-500 transition-all duration-300";
+        } else {
+          dot.className = "step-dot w-2 h-2 rounded-full bg-pink-200 transition-all duration-300";
+        }
+      });
+
+      if (state.noteIndex === state.notes.length - 1) {
+        noteNextBtn.innerHTML = `<span>Ready for the mystery</span><svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path></svg>`;
+      } else {
+        noteNextBtn.innerHTML = `<span>Continue reading</span><svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>`;
+      }
+    }
+
+    noteNextBtn.addEventListener('click', () => {
+      soundFx.playTap();
+      if (state.noteIndex < state.notes.length - 1) {
+        state.noteIndex++;
+        updateNoteDisplay();
+      } else {
+        // Proceed to Drumroll countdown
+        goToStage(stage2, stage3);
+        startCountdown();
+      }
+    });
+
+    function startCountdown() {
+      let count = 3;
+      countdownNumber.textContent = count;
+      soundFx.playDrumrollPulse(count);
+
+      const timer = setInterval(() => {
+        count--;
+        if (count > 0) {
+          countdownNumber.textContent = count;
+          countdownNumber.classList.add('scale-125');
+          setTimeout(() => countdownNumber.classList.remove('scale-125'), 200);
+          soundFx.playDrumrollPulse(count);
+        } else {
+          clearInterval(timer);
+          countdownNumber.textContent = "❤️";
+          soundFx.playSuccessNote();
+          setTimeout(() => {
+            goToStage(stage3, stage4);
+          }, 700);
+        }
+      }, 1000);
+    }
+
+    const playfulRefusals = [
+      "Wait, think again! 🥺",
+      "Are you positive? 😉",
+      "Nice try, button is shy! 🙈",
+      "Oops, clicked wrong button! 😜",
+      "Error 404: No option not found ❤️",
+      "Come on, you know you want to say Yes! 🥰"
+    ];
+    let refusalIndex = 0;
+
+    function dodgeNoButton(e) {
+      if (e && e.cancelable) e.preventDefault();
+      soundFx.playTap();
+      
+      // Calculate safe random coordinates inside the window viewport for iOS fixed positioning
+      const maxX = window.innerWidth - noBtn.offsetWidth - 30;
+      const maxY = window.innerHeight - noBtn.offsetHeight - 30;
+
+      const randomX = Math.max(20, Math.floor(Math.random() * maxX));
+      const randomY = Math.max(20, Math.floor(Math.random() * maxY));
+
+      noBtn.style.position = 'fixed';
+      noBtn.style.left = `${randomX}px`;
+      noBtn.style.top = `${randomY}px`;
+      noBtn.style.transform = 'none'; // Clear any previous translates
+      noBtn.textContent = playfulRefusals[refusalIndex % playfulRefusals.length];
+      refusalIndex++;
+
+      // Make the YES button grow subtly each time NO is attempted
+      const currentScale = parseFloat(yesBtn.getAttribute('data-scale') || '1');
+      const newScale = Math.min(currentScale + 0.05, 1.25);
+      yesBtn.setAttribute('data-scale', newScale);
+      yesBtn.style.transform = `scale(${newScale})`;
+    }
+
+    // Bind iOS Safari touch and pointer events alongside mouseover
+    ['touchstart', 'pointerdown', 'mouseover'].forEach(event => {
+      noBtn.addEventListener(event, dodgeNoButton, { passive: false });
+    });
+
+    // Confetti celebration trigger
+    function fireConfettiBurst() {
+      if (typeof confetti === 'function') {
+        const count = 200;
+        const defaults = { origin: { y: 0.7 } };
+
+        function fire(particleRatio, opts) {
+          confetti(Object.assign({}, defaults, opts, {
+            particleCount: Math.floor(count * particleRatio)
+          }));
+        }
+
+        fire(0.25, { spread: 26, startVelocity: 55 });
+        fire(0.2, { spread: 60 });
+        fire(0.35, { spread: 100, decay: 0.91, scalar: 0.8 });
+        fire(0.1, { spread: 120, startVelocity: 25, decay: 0.92, scalar: 1.2 });
+        fire(0.1, { spread: 120, startVelocity: 45 });
+      }
+    }
+
+    yesBtn.addEventListener('click', () => {
+      soundFx.playCelebrationFanfare();
+      fireConfettiBurst();
+      goToStage(stage4, stage5);
+      
+      // Continuous gentle confetti rain for a few seconds
+      const end = Date.now() + (3.5 * 1000);
+      const interval = setInterval(function() {
+        if (Date.now() > end) {
+          return clearInterval(interval);
+        }
+        confetti({
+          startVelocity: 30,
+          spread: 360,
+          ticks: 60,
+          origin: { x: Math.random(), y: Math.random() - 0.2 }
+        });
+      }, 350);
+    });
+
+    // Reset loop
+    replayBtn.addEventListener('click', () => {
+      state.scanTaps = 0;
+      state.noteIndex = 0;
+      unlockProgress.style.width = '0%';
+      unlockHint.textContent = `"Tap the scanner to verify it's you..."`;
+      mysteryScanner.disabled = false;
+      noBtn.style.position = 'relative'; // Reset position properties
+      noBtn.style.left = 'auto';
+      noBtn.style.top = 'auto';
+      noBtn.style.transform = 'translate(0px, 0px)';
+      noBtn.textContent = 'No 🙈';
+      yesBtn.style.transform = 'scale(1)';
+      yesBtn.setAttribute('data-scale', '1');
+      goToStage(stage5, stage1);
+    });
+
+    // Screenshot helper button
+    document.getElementById('send-confirmation-btn').addEventListener('click', () => {
+      const label = document.getElementById('send-confirmation-label');
+      label.textContent = "Saved in your heart forever! Take a screenshot 💖";
+      soundFx.playSuccessNote();
+    });
+
+    soundBtn.addEventListener('click', () => {
+      soundFx.isMuted = !soundFx.isMuted;
+      if (soundFx.isMuted) {
+        soundIconOn.classList.add('hidden');
+        soundIconOff.classList.remove('hidden');
+      } else {
+        soundIconOn.classList.remove('hidden');
+        soundIconOff.classList.add('hidden');
+        soundFx.playTap();
+      }
+    });
+
+    // Modal behavior
+    customizeBtn.addEventListener('click', () => {
+      customizeModal.classList.remove('hidden');
+      setTimeout(() => {
+        customizeModal.classList.remove('opacity-0');
+        customizeModal.firstElementChild.classList.remove('scale-95');
+      }, 10);
+    });
+
+    function closeModal() {
+      customizeModal.classList.add('opacity-0');
+      customizeModal.firstElementChild.classList.add('scale-95');
+      setTimeout(() => customizeModal.classList.add('hidden'), 200);
+      shareToast.classList.add('hidden');
+    }
+
+    closeModalBtn.addEventListener('click', closeModal);
+    customizeModal.addEventListener('click', (e) => {
+      if (e.target === customizeModal) closeModal();
+    });
+
+    customizeForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      state.herName = inputHerName.value.trim() || 'Sarah';
+      state.hisName = inputHisName.value.trim() || 'Alex';
+      state.notes[0].body = inputNote1.value.trim() || state.notes[0].body;
+      state.notes[1].body = inputNote2.value.trim() || state.notes[1].body;
+      renderNames();
+      updateNoteDisplay();
+      closeModal();
+      soundFx.playSuccessNote();
+    });
+
+    copyUrlBtn.addEventListener('click', () => {
+      const base = window.location.origin + window.location.pathname;
+      const params = new URLSearchParams();
+      params.set('her', inputHerName.value.trim() || state.herName);
+      params.set('his', inputHisName.value.trim() || state.hisName);
+      params.set('n1', inputNote1.value.trim() || state.notes[0].body);
+      params.set('n2', inputNote2.value.trim() || state.notes[1].body);
+
+      const generatedUrl = `${base}?${params.toString()}`;
+      
+      // Use execCommand copy compatibility
+      const dummyInput = document.createElement('input');
+      document.body.appendChild(dummyInput);
+      dummyInput.value = generatedUrl;
+      dummyInput.select();
+      document.execCommand('copy');
+      document.body.removeChild(dummyInput);
+
+      shareToast.classList.remove('hidden');
+      setTimeout(() => shareToast.classList.add('hidden'), 3500);
+      soundFx.playSuccessNote();
+    });
+
+    // Init call
+    applyUrlParams();
+  </script>
+</body>
+</html>
